@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { Eye, EyeOff, Loader2, AlertCircle, Terminal } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { authApi } from '../services/api';
+// Direct Supabase import - adjust path if your client is located elsewhere (e.g., '../lib/supabase')
+import { supabase } from '../services/supabase'; 
 
 const loginSchema = zod.object({
   email: zod.string().email('Invalid email address'),
@@ -15,8 +15,6 @@ const loginSchema = zod.object({
 type LoginFields = zod.infer<typeof loginSchema>;
 
 export const AdminLogin: React.FC = () => {
-  const { signIn, signOut, refreshProfile } = useAuth();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -31,24 +29,38 @@ export const AdminLogin: React.FC = () => {
   const onSubmit = async (data: LoginFields) => {
     setSubmitError(null);
     try {
-      // 1. Sign in via Supabase Auth
-      await signIn(data.email, data.password);
-      
-      // 2. Fetch the profile directly to inspect the role
-      const profileData = await authApi.getMe();
-      
+      // 1. Authenticate directly via Supabase client (bypassing AuthContext signIn wrapper)
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (authError) throw authError;
+      if (!authData.user) throw new Error('Authentication failed. User session not established.');
+
+      // 2. Directly query the profiles table in the database using the authenticated user ID
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', authData.user.id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      // 3. Check for admin role
       if (profileData?.role !== 'admin') {
-        // 3. Deny access: sign out immediately if not admin
-        await signOut();
+        // Deny access: sign out immediately if not admin
+        await supabase.auth.signOut();
         setSubmitError('Access Denied: Account does not have administrator privileges.');
         return;
       }
 
-      // 4. Update the global AuthContext state and redirect to admin dashboard
-      await refreshProfile();
-      navigate('/admin');
+      // 4. Force a hard redirect to the admin dashboard.
+      // Using window.location.replace prevents AuthContext listeners from race-condition hijacking the route.
+      window.location.replace('/admin');
+      
     } catch (err: any) {
-      console.error(err);
+      console.error('Login error:', err);
       setSubmitError(err.message || 'Invalid admin credentials. Access Denied.');
     }
   };
