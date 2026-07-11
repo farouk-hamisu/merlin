@@ -136,7 +136,7 @@ export const Dashboard: React.FC = () => {
   };
 
   // Note: Added optional testName to avoid TS errors from your onClick usage later, but logic is unchanged
-  const handleDownloadPDF = async (testId: string, testName?: string) => {
+  const handleDownloadPDF = async (testId: string) => {
     await documentApi.trackDownload(testId);
 
     const printWindow = window.open(
