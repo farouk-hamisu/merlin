@@ -15,3 +15,4 @@
 [2026-07-11 09:56:32:5632] [[31merror[39m]: [31mError converting image url to base64: fetch failed for url https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png[39m
 [2026-07-11 09:57:54:5754] [[31merror[39m]: [31mError in /:id/download: TypeError: fetch failed[39m
 [2026-07-11 10:00:09:09] [[31merror[39m]: [31mError converting image url to base64: terminated for url https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png[39m
+[2026-07-11 10:11:50:1150] [[31merror[39m]: [31mError converting image url to base64: terminated for url https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png[39m
