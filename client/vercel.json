@@ -5,5 +5,11 @@
       "destination": "https://ndlea.gov.ng",
       "permanent": false
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
