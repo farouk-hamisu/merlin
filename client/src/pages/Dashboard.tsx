@@ -5,11 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { 
   Shield, Key, FileText, Upload, Plus, CheckCircle, 
-  AlertTriangle, Loader2, LogOut, Download, LayoutDashboard, Send
+  AlertTriangle, Loader2, LogOut, Download, Send
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { documentApi, authApi } from '../services/api';
-import html2pdf from 'html2pdf.js';
 
 const generateSchema = zod.object({
   name: zod.string().min(3, 'Full name must be at least 3 characters. Ensure it matches your portal records.'),
