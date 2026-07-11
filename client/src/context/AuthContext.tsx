@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfile = async (_uid: string) => {
+  const fetchProfile = async (_uid?: string) => {
     try {
       const data = await authApi.getMe();
       setProfile(data);
@@ -40,12 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const refreshProfile = async () => {
-    if (user) {
-      await fetchProfile(user.id);
-    }
+    await fetchProfile();
   };
 
   useEffect(() => {
+    let isFirstEvent = true;
+
     // 1. Get initial session
     const initAuth = async () => {
       try {
@@ -65,7 +65,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // 2. Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setLoading(true);
+      // Skip the initial session event to prevent duplicate fetches on load
+      if (isFirstEvent) {
+        isFirstEvent = false;
+        return;
+      }
+
       if (session?.user) {
         setUser(session.user);
         await fetchProfile(session.user.id);
@@ -73,7 +78,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
         setProfile(null);
       }
-      setLoading(false);
     });
 
     return () => {
