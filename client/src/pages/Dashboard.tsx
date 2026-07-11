@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { documentApi, authApi } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+
 
 const generateSchema = zod.object({
   name: zod.string().min(3, 'Full name must be at least 3 characters. Ensure it matches your portal records.'),
@@ -68,6 +70,15 @@ export const Dashboard: React.FC = () => {
     loadMyTests();
     loadSettings();
   }, []);
+ 
+// Inside your Dashboard component:
+const navigate = useNavigate();
+
+useEffect(() => {
+  if (profile?.role === 'admin') {
+    navigate('/admin', { replace: true });
+  }
+}, [profile, navigate]);
 
   const handleKeyRedeem = async (e: React.FormEvent) => {
     e.preventDefault();
