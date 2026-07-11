@@ -10,3 +10,8 @@
 [2026-07-11 03:47:57:4757] [[32minfo[39m]: [32mUser eef05806-f5fd-44e3-9fa3-80411dd58113 successfully redeemed key DT-WP4E-V32N-ZX90[39m
 [2026-07-11 03:48:02:482] [[32minfo[39m]: [32mUser eef05806-f5fd-44e3-9fa3-80411dd58113 generated drug test 5153bdd3-00e4-4668-af6d-e8ad77766cdf (Cert: NDLEA/DT/571225)[39m
 [2026-07-11 03:55:09:559] [[32minfo[39m]: [32mServer is running on port 5000 in development mode[39m
+[2026-07-11 09:50:23:5023] [[32minfo[39m]: [32mServer is running on port 5000 in development mode[39m
+[2026-07-11 09:56:32:5632] [[31merror[39m]: [31mError converting image url to base64: fetch failed for url https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png[39m
+[2026-07-11 09:56:32:5632] [[31merror[39m]: [31mError converting image url to base64: fetch failed for url https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png[39m
+[2026-07-11 09:57:54:5754] [[31merror[39m]: [31mError in /:id/download: TypeError: fetch failed[39m
+[2026-07-11 10:00:09:09] [[31merror[39m]: [31mError converting image url to base64: terminated for url https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png[39m

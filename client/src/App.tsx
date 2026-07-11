@@ -10,6 +10,7 @@ import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
 import { Verify } from './pages/Verify';
 import { Admin } from './pages/Admin';
+import { AdminLogin } from './pages/AdminLogin';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,7 +58,11 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     );
   }
 
-  if (!user || profile?.role !== 'admin') {
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  if (profile?.role !== 'admin') {
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -73,6 +78,24 @@ const PublicOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) 
   }
 
   if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// Guard: Prevent logged-in users from seeing admin login page
+const AdminPublicOnlyRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user, profile, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
+
+  if (user) {
+    if (profile?.role === 'admin') {
+      return <Navigate to="/admin" replace />;
+    }
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -96,6 +119,14 @@ function App() {
                 <PublicOnlyRoute>
                   <Login />
                 </PublicOnlyRoute>
+              } 
+            />
+            <Route 
+              path="/admin/login" 
+              element={
+                <AdminPublicOnlyRoute>
+                  <AdminLogin />
+                </AdminPublicOnlyRoute>
               } 
             />
             <Route 

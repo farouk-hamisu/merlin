@@ -99,11 +99,11 @@ router.post('/generate', auth_1.requireAuth, upload_1.upload.single('passport'),
         const { data: { publicUrl } } = supabase_1.supabaseAdmin.storage
             .from('passports')
             .getPublicUrl(storageFileName);
-        // 3. Generate dynamic barcode (QR code) pointing to the verification page
+        // 3. Generate dynamic barcode (QR code) pointing directly to the rendered certificate page
         const documentId = crypto_1.default.randomUUID();
-        const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify/${documentId}`;
+        const certificateUrl = `${req.protocol}://${req.get('host')}/api/documents/${documentId}/render`;
         // Generate base64 data URI of QR code
-        const qrCodeDataUrl = await qrcode_1.default.toDataURL(verificationUrl, {
+        const qrCodeDataUrl = await qrcode_1.default.toDataURL(certificateUrl, {
             width: 100,
             margin: 1,
             errorCorrectionLevel: 'H'
@@ -228,6 +228,11 @@ router.get('/:id/render', async (req, res) => {
             getBase64FromUrl(test.passport_url)
         ]);
         // Interpolate placeholders
+        const sanitizedCertNum = test.certificate_number.replace(/\//g, '-');
+        const sanitizedAppId = test.applicant_id.replace(/\//g, '-');
+        const randomStr = crypto_1.default.randomBytes(3).toString('hex').toUpperCase();
+        const fileName = `CERT-${sanitizedCertNum}_APP-${sanitizedAppId}_${randomStr}`;
+        html = html.replace(/\{\{FILE_NAME\}\}/g, fileName);
         html = html.replace(/\{\{CERTIFICATE_NUMBER\}\}/g, test.certificate_number);
         html = html.replace(/\{\{NAME\}\}/g, test.name);
         html = html.replace(/\{\{APPLICANT_ID\}\}/g, test.applicant_id);

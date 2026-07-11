@@ -135,7 +135,6 @@ export const Dashboard: React.FC = () => {
     }
   };
 
-  // Note: Added optional testName to avoid TS errors from your onClick usage later, but logic is unchanged
   const handleDownloadPDF = async (testId: string) => {
     await documentApi.trackDownload(testId);
 
@@ -363,50 +362,98 @@ export const Dashboard: React.FC = () => {
                   No generated certificates found on this account.
                 </div>
               ) : (
-                <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-                  <table className="w-full text-left border-collapse min-w-[600px]">
-                    <thead>
-                      <tr className="border-b border-cyber-border text-xs uppercase tracking-wider text-cyber-text-muted">
-                        <th className="pb-3 font-bold whitespace-nowrap">Candidate Name</th>
-                        <th className="pb-3 font-bold whitespace-nowrap">Cert Number</th>
-                        <th className="pb-3 font-bold text-center whitespace-nowrap">Downloads</th>
-                        <th className="pb-3 font-bold whitespace-nowrap">Generated At</th>
-                        <th className="pb-3 font-bold text-right whitespace-nowrap">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-cyber-border/40 text-sm">
-                      {myTests.map((test) => (
-                        <tr key={test.id} className="hover:bg-cyber-surface/20">
-                          <td className="py-3 font-bold text-white uppercase whitespace-nowrap pr-4">{test.name}</td>
-                          <td className="py-3 text-cyber-primary font-mono whitespace-nowrap pr-4">{test.certificate_number}</td>
-                          <td className="py-3 text-center whitespace-nowrap pr-4">{test.download_count}</td>
-                          <td className="py-3 text-cyber-text-muted text-xs whitespace-nowrap pr-4">
-                            {new Date(test.created_at).toLocaleDateString()}
-                          </td>
-                          <td className="py-3 text-right">
-                            <div className="flex items-center justify-end gap-2">
-                              <button
-                                onClick={() => {
-                                  setActiveTest(test);
-                                  setPreviewOpen(true);
-                                }}
-                                className="text-xs text-cyber-primary hover:underline border border-cyber-primary/20 px-2.5 py-1.5 rounded bg-cyber-primary/5 cursor-pointer whitespace-nowrap"
-                              >
-                                Preview
-                              </button>
-                              <button
-                                onClick={() => handleDownloadPDF(test.id, test.name)}
-                                className="text-xs text-cyber-success hover:underline border border-cyber-success/20 px-2.5 py-1.5 rounded bg-cyber-success/5 inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                              >
-                                <Download className="h-3 w-3" /> Save PDF
-                              </button>
-                            </div>
-                          </td>
+                <>
+                  {/* Mobile/Tablet Card View */}
+                  <div className="space-y-4 md:hidden">
+                    {myTests.map((test) => (
+                      <div key={test.id} className="p-4 border border-cyber-border/40 rounded bg-cyber-surface/10 space-y-3">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono font-bold block">Candidate Name</span>
+                            <span className="font-bold text-white uppercase text-sm block">{test.name}</span>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono font-bold block">Downloads</span>
+                            <span className="text-sm font-bold text-cyber-primary">{test.download_count}</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                          <div>
+                            <span className="text-cyber-text-muted font-mono font-bold uppercase block">Cert Number</span>
+                            <span className="text-cyber-primary font-mono">{test.certificate_number}</span>
+                          </div>
+                          <div>
+                            <span className="text-cyber-text-muted font-mono font-bold uppercase block">Generated At</span>
+                            <span className="text-cyber-text-muted">{new Date(test.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 pt-2 border-t border-cyber-border/20">
+                          <button
+                            onClick={() => {
+                              setActiveTest(test);
+                              setPreviewOpen(true);
+                            }}
+                            className="flex-1 text-center text-xs text-cyber-primary hover:underline border border-cyber-primary/20 py-2 rounded bg-cyber-primary/5 cursor-pointer font-semibold"
+                          >
+                            Preview
+                          </button>
+                          <button
+                            onClick={() => handleDownloadPDF(test.id)}
+                            className="flex-1 text-center text-xs text-cyber-success hover:underline border border-cyber-success/20 py-2 rounded bg-cyber-success/5 inline-flex items-center justify-center gap-1 cursor-pointer font-semibold"
+                          >
+                            <Download className="h-3 w-3" /> Save PDF
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop Table View */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-cyber-border text-xs uppercase tracking-wider text-cyber-text-muted">
+                          <th className="pb-3 font-bold whitespace-nowrap">Candidate Name</th>
+                          <th className="pb-3 font-bold whitespace-nowrap">Cert Number</th>
+                          <th className="pb-3 font-bold text-center whitespace-nowrap">Downloads</th>
+                          <th className="pb-3 font-bold whitespace-nowrap">Generated At</th>
+                          <th className="pb-3 font-bold text-right whitespace-nowrap">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-cyber-border/40 text-sm">
+                        {myTests.map((test) => (
+                          <tr key={test.id} className="hover:bg-cyber-surface/20">
+                            <td className="py-3 font-bold text-white uppercase whitespace-nowrap pr-4">{test.name}</td>
+                            <td className="py-3 text-cyber-primary font-mono whitespace-nowrap pr-4">{test.certificate_number}</td>
+                            <td className="py-3 text-center whitespace-nowrap pr-4">{test.download_count}</td>
+                            <td className="py-3 text-cyber-text-muted text-xs whitespace-nowrap pr-4">
+                              {new Date(test.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="py-3 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <button
+                                  onClick={() => {
+                                    setActiveTest(test);
+                                    setPreviewOpen(true);
+                                  }}
+                                  className="text-xs text-cyber-primary hover:underline border border-cyber-primary/20 px-2.5 py-1.5 rounded bg-cyber-primary/5 cursor-pointer whitespace-nowrap"
+                                >
+                                  Preview
+                                </button>
+                                <button
+                                  onClick={() => handleDownloadPDF(test.id)}
+                                  className="text-xs text-cyber-success hover:underline border border-cyber-success/20 px-2.5 py-1.5 rounded bg-cyber-success/5 inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                >
+                                  <Download className="h-3 w-3" /> Save PDF
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
 
@@ -426,7 +473,7 @@ export const Dashboard: React.FC = () => {
               </div>
               <div className="flex flex-col sm:flex-row w-full sm:w-auto items-stretch sm:items-center gap-2 sm:gap-3">
                 <button
-                  onClick={() => handleDownloadPDF(activeTest.id, activeTest.name)}
+                  onClick={() => handleDownloadPDF(activeTest.id)}
                   className="cyber-button text-xs px-4 py-2 sm:py-1.5 flex items-center justify-center gap-2"
                 >
                   <Download className="h-4 w-4" /> Download Certificate

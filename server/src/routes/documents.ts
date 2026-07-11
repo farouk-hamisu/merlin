@@ -257,6 +257,12 @@ router.get('/:id/render', async (req: AuthenticatedRequest, res: Response) => {
     ]);
 
     // Interpolate placeholders
+    const sanitizedCertNum = test.certificate_number.replace(/\//g, '-');
+    const sanitizedAppId = test.applicant_id.replace(/\//g, '-');
+    const randomStr = crypto.randomBytes(3).toString('hex').toUpperCase();
+    const fileName = `CERT-${sanitizedCertNum}_APP-${sanitizedAppId}_${randomStr}`;
+
+    html = html.replace(/\{\{FILE_NAME\}\}/g, fileName);
     html = html.replace(/\{\{CERTIFICATE_NUMBER\}\}/g, test.certificate_number);
     html = html.replace(/\{\{NAME\}\}/g, test.name);
     html = html.replace(/\{\{APPLICANT_ID\}\}/g, test.applicant_id);

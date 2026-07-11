@@ -254,10 +254,10 @@ export const Admin: React.FC = () => {
       <div className="max-w-7xl w-full mx-auto px-4 py-8 flex-grow flex flex-col md:flex-row gap-8">
         
         {/* Left Side Navigation (Tabs) */}
-        <aside className="w-full md:w-64 shrink-0 space-y-2">
+        <aside className="w-full md:w-64 shrink-0 flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 gap-2 md:space-y-2">
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
+            className={`shrink-0 whitespace-nowrap w-auto md:w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
               activeTab === 'analytics' ? 'bg-cyber-primary text-black' : 'bg-cyber-surface-card hover:bg-cyber-surface-hover text-cyber-text-muted hover:text-white'
             }`}
           >
@@ -265,7 +265,7 @@ export const Admin: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('users')}
-            className={`w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
+            className={`shrink-0 whitespace-nowrap w-auto md:w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
               activeTab === 'users' ? 'bg-cyber-primary text-black' : 'bg-cyber-surface-card hover:bg-cyber-surface-hover text-cyber-text-muted hover:text-white'
             }`}
           >
@@ -273,7 +273,7 @@ export const Admin: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('keys')}
-            className={`w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
+            className={`shrink-0 whitespace-nowrap w-auto md:w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
               activeTab === 'keys' ? 'bg-cyber-primary text-black' : 'bg-cyber-surface-card hover:bg-cyber-surface-hover text-cyber-text-muted hover:text-white'
             }`}
           >
@@ -281,7 +281,7 @@ export const Admin: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('tests')}
-            className={`w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
+            className={`shrink-0 whitespace-nowrap w-auto md:w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
               activeTab === 'tests' ? 'bg-cyber-primary text-black' : 'bg-cyber-surface-card hover:bg-cyber-surface-hover text-cyber-text-muted hover:text-white'
             }`}
           >
@@ -289,7 +289,7 @@ export const Admin: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('settings')}
-            className={`w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
+            className={`shrink-0 whitespace-nowrap w-auto md:w-full text-left px-4 py-3 rounded font-bold text-sm flex items-center gap-3 transition-colors ${
               activeTab === 'settings' ? 'bg-cyber-primary text-black' : 'bg-cyber-surface-card hover:bg-cyber-surface-hover text-cyber-text-muted hover:text-white'
             }`}
           >
@@ -416,63 +416,123 @@ export const Admin: React.FC = () => {
               ) : users.length === 0 ? (
                 <div className="text-center py-12 text-cyber-text-muted text-sm">No profiles found matching search query.</div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
-                        <th className="pb-3">Profile ID</th>
-                        <th className="pb-3">Security Email</th>
-                        <th className="pb-3">Role</th>
-                        <th className="pb-3 text-center">Token Balance</th>
-                        <th className="pb-3">Node Status</th>
-                        <th className="pb-3 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-cyber-border/40">
-                      {users.map((u) => (
-                        <tr key={u.id} className="hover:bg-cyber-surface/20">
-                          <td className="py-3 font-mono text-cyber-text-muted">{u.id.substring(0, 8)}...</td>
-                          <td className="py-3 font-bold text-white">{u.email}</td>
-                          <td className="py-3">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-cyber-primary/10 text-cyber-primary border border-cyber-primary/20' : 'bg-cyber-border text-cyber-text-muted'}`}>
-                              {u.role.toUpperCase()}
-                            </span>
-                          </td>
-                          <td className="py-3 text-center font-bold">{u.generation_balance}</td>
-                          <td className="py-3">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${u.status === 'active' ? 'bg-cyber-success/15 text-cyber-success' : 'bg-cyber-danger/15 text-cyber-danger'}`}>
+                <>
+                  {/* Mobile/Tablet Card View */}
+                  <div className="space-y-4 md:hidden">
+                    {users.map((u) => (
+                      <div key={u.id} className="p-4 border border-cyber-border/40 rounded bg-cyber-surface/10 space-y-3 text-xs">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Profile ID</span>
+                            <span className="font-mono text-cyber-text-muted break-all">{u.id}</span>
+                          </div>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${u.role === 'admin' ? 'bg-cyber-primary/10 text-cyber-primary border border-cyber-primary/20' : 'bg-cyber-border text-cyber-text-muted'}`}>
+                            {u.role.toUpperCase()}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Security Email</span>
+                          <span className="font-bold text-white text-sm break-all">{u.email}</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Token Balance</span>
+                            <span className="font-bold text-white">{u.generation_balance}</span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Node Status</span>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase inline-block ${u.status === 'active' ? 'bg-cyber-success/15 text-cyber-success' : 'bg-cyber-danger/15 text-cyber-danger'}`}>
                               {u.status}
                             </span>
-                          </td>
-                          <td className="py-3 text-right space-x-2">
-                            <button
-                              onClick={() => handleToggleUserStatus(u.id, u.status)}
-                              className={`px-2 py-1 rounded border text-[10px] font-semibold cursor-pointer ${
-                                u.status === 'active' 
-                                ? 'border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/5' 
-                                : 'border-cyber-success/20 text-cyber-success hover:bg-cyber-success/5'
-                              }`}
-                            >
-                              {u.status === 'active' ? 'Suspend' : 'Activate'}
-                            </button>
-                            <button
-                              onClick={() => handleResetUserPassword(u.id)}
-                              className="px-2 py-1 rounded border border-cyber-primary/20 text-cyber-primary hover:bg-cyber-primary/5 text-[10px] font-semibold cursor-pointer"
-                            >
-                              Reset Pass
-                            </button>
-                            <button
-                              onClick={() => handleDeleteUser(u.id)}
-                              className="px-2 py-1 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 text-[10px] font-semibold cursor-pointer"
-                            >
-                              <Trash2 className="h-3 w-3 inline" />
-                            </button>
-                          </td>
+                          </div>
+                        </div>
+                        <div className="flex flex-wrap gap-2 pt-2 border-t border-cyber-border/20">
+                          <button
+                            onClick={() => handleToggleUserStatus(u.id, u.status)}
+                            className={`flex-grow text-center py-2 px-3 rounded border text-[10px] font-semibold cursor-pointer ${
+                              u.status === 'active' 
+                              ? 'border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/5 bg-cyber-danger/5' 
+                              : 'border-cyber-success/20 text-cyber-success hover:bg-cyber-success/5 bg-cyber-success/5'
+                            }`}
+                          >
+                            {u.status === 'active' ? 'Suspend' : 'Activate'}
+                          </button>
+                          <button
+                            onClick={() => handleResetUserPassword(u.id)}
+                            className="flex-grow text-center py-2 px-3 rounded border border-cyber-primary/20 text-cyber-primary hover:bg-cyber-primary/5 bg-cyber-primary/5 text-[10px] font-semibold cursor-pointer"
+                          >
+                            Reset Pass
+                          </button>
+                          <button
+                            onClick={() => handleDeleteUser(u.id)}
+                            className="px-3 py-2 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 bg-cyber-danger/5 cursor-pointer flex items-center justify-center shrink-0"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop Table View */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
+                          <th className="pb-3">Profile ID</th>
+                          <th className="pb-3">Security Email</th>
+                          <th className="pb-3">Role</th>
+                          <th className="pb-3 text-center">Token Balance</th>
+                          <th className="pb-3">Node Status</th>
+                          <th className="pb-3 text-right">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-cyber-border/40">
+                        {users.map((u) => (
+                          <tr key={u.id} className="hover:bg-cyber-surface/20">
+                            <td className="py-3 font-mono text-cyber-text-muted">{u.id.substring(0, 8)}...</td>
+                            <td className="py-3 font-bold text-white">{u.email}</td>
+                            <td className="py-3">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${u.role === 'admin' ? 'bg-cyber-primary/10 text-cyber-primary border border-cyber-primary/20' : 'bg-cyber-border text-cyber-text-muted'}`}>
+                                {u.role.toUpperCase()}
+                              </span>
+                            </td>
+                            <td className="py-3 text-center font-bold">{u.generation_balance}</td>
+                            <td className="py-3">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${u.status === 'active' ? 'bg-cyber-success/15 text-cyber-success' : 'bg-cyber-danger/15 text-cyber-danger'}`}>
+                                {u.status}
+                              </span>
+                            </td>
+                            <td className="py-3 text-right space-x-2">
+                              <button
+                                onClick={() => handleToggleUserStatus(u.id, u.status)}
+                                className={`px-2 py-1 rounded border text-[10px] font-semibold cursor-pointer ${
+                                  u.status === 'active' 
+                                  ? 'border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/5' 
+                                  : 'border-cyber-success/20 text-cyber-success hover:bg-cyber-success/5'
+                                }`}
+                              >
+                                {u.status === 'active' ? 'Suspend' : 'Activate'}
+                              </button>
+                              <button
+                                onClick={() => handleResetUserPassword(u.id)}
+                                className="px-2 py-1 rounded border border-cyber-primary/20 text-cyber-primary hover:bg-cyber-primary/5 text-[10px] font-semibold cursor-pointer"
+                              >
+                                Reset Pass
+                              </button>
+                              <button
+                                onClick={() => handleDeleteUser(u.id)}
+                                className="px-2 py-1 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 text-[10px] font-semibold cursor-pointer"
+                              >
+                                <Trash2 className="h-3 w-3 inline" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -554,45 +614,82 @@ export const Admin: React.FC = () => {
                 ) : keys.length === 0 ? (
                   <div className="text-center py-12 text-cyber-text-muted text-xs">No keys matching criteria.</div>
                 ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse text-xs">
-                      <thead>
-                        <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
-                          <th className="pb-3">Activation Key</th>
-                          <th className="pb-3">State</th>
-                          <th className="pb-3">Redeemed By</th>
-                          <th className="pb-3">Redeemed Date</th>
-                          <th className="pb-3 text-right">Delete</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-cyber-border/40">
-                        {keys.map((k) => (
-                          <tr key={k.id} className="hover:bg-cyber-surface/20 font-mono">
-                            <td className="py-2.5 font-bold text-white">{k.key}</td>
-                            <td className="py-2.5 font-sans">
-                              <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${k.is_used ? 'bg-cyber-danger/15 text-cyber-danger' : 'bg-cyber-success/15 text-cyber-success'}`}>
-                                {k.is_used ? 'REDEEMED' : 'UNUSEDACTIVE'}
-                              </span>
-                            </td>
-                            <td className="py-2.5 font-sans text-cyber-text-muted">
-                              {k.is_used ? (k.used_by_profile?.email || 'System Sync') : '-'}
-                            </td>
-                            <td className="py-2.5 text-cyber-text-muted font-sans text-[11px]">
-                              {k.is_used ? new Date(k.used_at).toLocaleDateString() : '-'}
-                            </td>
-                            <td className="py-2.5 text-right font-sans">
-                              <button
-                                onClick={() => handleDeleteKey(k.id)}
-                                className="text-cyber-danger hover:text-white hover:bg-cyber-danger/10 px-2 py-1 rounded transition-colors cursor-pointer"
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </button>
-                            </td>
+                  <>
+                    {/* Mobile/Tablet Card View */}
+                    <div className="space-y-4 md:hidden">
+                      {keys.map((k) => (
+                        <div key={k.id} className="p-4 border border-cyber-border/40 rounded bg-cyber-surface/10 space-y-3 text-xs font-mono">
+                          <div className="flex justify-between items-center gap-4">
+                            <span className="font-bold text-white text-sm break-all">{k.key}</span>
+                            <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase font-sans shrink-0 ${k.is_used ? 'bg-cyber-danger/15 text-cyber-danger' : 'bg-cyber-success/15 text-cyber-success'}`}>
+                              {k.is_used ? 'REDEEMED' : 'UNUSEDACTIVE'}
+                            </span>
+                          </div>
+                          {k.is_used && (
+                            <div className="space-y-2 font-sans text-cyber-text-muted border-t border-cyber-border/20 pt-2">
+                              <div>
+                                <span className="text-[9px] uppercase text-cyber-text-muted font-mono block font-semibold">Redeemed By</span>
+                                <span className="break-all">{k.used_by_profile?.email || 'System Sync'}</span>
+                              </div>
+                              <div>
+                                <span className="text-[9px] uppercase text-cyber-text-muted font-mono block font-semibold">Redeemed Date</span>
+                                <span>{new Date(k.used_at).toLocaleDateString()}</span>
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex justify-end pt-2 border-t border-cyber-border/20">
+                            <button
+                              onClick={() => handleDeleteKey(k.id)}
+                              className="text-cyber-danger hover:text-white border border-cyber-danger/20 hover:bg-cyber-danger/10 px-3 py-1.5 rounded transition-colors cursor-pointer font-sans text-xs flex items-center gap-1"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" /> Delete Key
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Desktop Table View */}
+                    <div className="hidden md:block overflow-x-auto">
+                      <table className="w-full text-left border-collapse text-xs">
+                        <thead>
+                          <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
+                            <th className="pb-3">Activation Key</th>
+                            <th className="pb-3">State</th>
+                            <th className="pb-3">Redeemed By</th>
+                            <th className="pb-3">Redeemed Date</th>
+                            <th className="pb-3 text-right">Delete</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
+                        <tbody className="divide-y divide-cyber-border/40">
+                          {keys.map((k) => (
+                            <tr key={k.id} className="hover:bg-cyber-surface/20 font-mono">
+                              <td className="py-2.5 font-bold text-white">{k.key}</td>
+                              <td className="py-2.5 font-sans">
+                                <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${k.is_used ? 'bg-cyber-danger/15 text-cyber-danger' : 'bg-cyber-success/15 text-cyber-success'}`}>
+                                  {k.is_used ? 'REDEEMED' : 'UNUSEDACTIVE'}
+                                </span>
+                              </td>
+                              <td className="py-2.5 font-sans text-cyber-text-muted">
+                                {k.is_used ? (k.used_by_profile?.email || 'System Sync') : '-'}
+                              </td>
+                              <td className="py-2.5 text-cyber-text-muted font-sans text-[11px]">
+                                {k.is_used ? new Date(k.used_at).toLocaleDateString() : '-'}
+                              </td>
+                              <td className="py-2.5 text-right font-sans">
+                                <button
+                                  onClick={() => handleDeleteKey(k.id)}
+                                  className="text-cyber-danger hover:text-white hover:bg-cyber-danger/10 px-2 py-1 rounded transition-colors cursor-pointer"
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
                 )}
               </div>
 
@@ -625,55 +722,112 @@ export const Admin: React.FC = () => {
               ) : tests.length === 0 ? (
                 <div className="text-center py-12 text-cyber-text-muted text-sm">No certificate records found.</div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead>
-                      <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
-                        <th className="pb-3">Candidate Full Name</th>
-                        <th className="pb-3">Certificate Code</th>
-                        <th className="pb-3">Generated By (Account)</th>
-                        <th className="pb-3 text-center">Downloads</th>
-                        <th className="pb-3">Compile Date</th>
-                        <th className="pb-3 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-cyber-border/40">
-                      {tests.map((t) => (
-                        <tr key={t.id} className="hover:bg-cyber-surface/20">
-                          <td className="py-3 font-bold text-white uppercase">{t.name}</td>
-                          <td className="py-3 font-mono text-cyber-primary">{t.certificate_number}</td>
-                          <td className="py-3 text-cyber-text-muted">{t.profiles?.email || 'Revoked Node'}</td>
-                          <td className="py-3 text-center font-bold">{t.download_count}</td>
-                          <td className="py-3 text-cyber-text-muted">
-                            {new Date(t.created_at).toLocaleDateString()}
-                          </td>
-                          <td className="py-3 text-right space-x-2">
-                            <button
-                              onClick={() => handleViewTestHistory(t)}
-                              className="px-2.5 py-1 border border-cyber-primary/20 bg-cyber-primary/5 hover:bg-cyber-primary/10 text-cyber-primary rounded font-bold cursor-pointer"
-                            >
-                              Scan Logs
-                            </button>
-                            <a 
-                              href={documentApi.getRenderUrl(t.id)} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="px-2.5 py-1 border border-cyber-border bg-cyber-surface hover:text-white rounded inline-flex items-center gap-1 font-bold"
-                            >
-                              <Eye className="h-3 w-3" /> View
-                            </a>
-                            <button
-                              onClick={() => handleDeleteTest(t.id)}
-                              className="px-2 py-1 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 cursor-pointer"
-                            >
-                              <Trash2 className="h-3.5 w-3.5 inline" />
-                            </button>
-                          </td>
+                <>
+                  {/* Mobile/Tablet Card View */}
+                  <div className="space-y-4 md:hidden">
+                    {tests.map((t) => (
+                      <div key={t.id} className="p-4 border border-cyber-border/40 rounded bg-cyber-surface/10 space-y-3 text-xs">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Candidate Full Name</span>
+                            <span className="font-bold text-white uppercase text-sm block">{t.name}</span>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Downloads</span>
+                            <span className="font-bold text-white">{t.download_count}</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Certificate Code</span>
+                            <span className="font-mono text-cyber-primary">{t.certificate_number}</span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Compile Date</span>
+                            <span className="text-cyber-text-muted">{new Date(t.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <span className="text-[10px] uppercase text-cyber-text-muted font-mono block font-semibold">Generated By (Account)</span>
+                          <span className="text-cyber-text-muted break-all">{t.profiles?.email || 'Revoked Node'}</span>
+                        </div>
+                        <div className="flex gap-2 pt-2 border-t border-cyber-border/20">
+                          <button
+                            onClick={() => handleViewTestHistory(t)}
+                            className="flex-grow text-center py-2 border border-cyber-primary/20 bg-cyber-primary/5 hover:bg-cyber-primary/10 text-cyber-primary rounded font-bold cursor-pointer text-xs"
+                          >
+                            Scan Logs
+                          </button>
+                          <a 
+                            href={documentApi.getRenderUrl(t.id)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex-grow text-center py-2 border border-cyber-border bg-cyber-surface hover:text-white rounded inline-flex items-center justify-center gap-1 font-bold text-xs"
+                          >
+                            <Eye className="h-3 w-3" /> View
+                          </a>
+                          <button
+                            onClick={() => handleDeleteTest(t.id)}
+                            className="px-3 py-2 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 bg-cyber-danger/5 cursor-pointer flex items-center justify-center shrink-0"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop Table View */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full text-left border-collapse text-xs">
+                      <thead>
+                        <tr className="border-b border-cyber-border uppercase text-cyber-text-muted font-bold">
+                          <th className="pb-3">Candidate Full Name</th>
+                          <th className="pb-3">Certificate Code</th>
+                          <th className="pb-3">Generated By (Account)</th>
+                          <th className="pb-3 text-center">Downloads</th>
+                          <th className="pb-3">Compile Date</th>
+                          <th className="pb-3 text-right">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-cyber-border/40">
+                        {tests.map((t) => (
+                          <tr key={t.id} className="hover:bg-cyber-surface/20">
+                            <td className="py-3 font-bold text-white uppercase">{t.name}</td>
+                            <td className="py-3 font-mono text-cyber-primary">{t.certificate_number}</td>
+                            <td className="py-3 text-cyber-text-muted">{t.profiles?.email || 'Revoked Node'}</td>
+                            <td className="py-3 text-center font-bold">{t.download_count}</td>
+                            <td className="py-3 text-cyber-text-muted">
+                              {new Date(t.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="py-3 text-right space-x-2">
+                              <button
+                                onClick={() => handleViewTestHistory(t)}
+                                className="px-2.5 py-1 border border-cyber-primary/20 bg-cyber-primary/5 hover:bg-cyber-primary/10 text-cyber-primary rounded font-bold cursor-pointer"
+                              >
+                                Scan Logs
+                              </button>
+                              <a 
+                                href={documentApi.getRenderUrl(t.id)} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="px-2.5 py-1 border border-cyber-border bg-cyber-surface hover:text-white rounded inline-flex items-center gap-1 font-bold"
+                              >
+                                <Eye className="h-3 w-3" /> View
+                              </a>
+                              <button
+                                onClick={() => handleDeleteTest(t.id)}
+                                className="px-2 py-1 rounded border border-cyber-danger/20 text-cyber-danger hover:bg-cyber-danger/10 cursor-pointer"
+                              >
+                                <Trash2 className="h-3.5 w-3.5 inline" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -735,14 +889,14 @@ export const Admin: React.FC = () => {
       {historyModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="cyber-panel bg-cyber-surface-card max-w-2xl w-full h-[60vh] flex flex-col">
-            <div className="px-6 py-4 border-b border-cyber-border bg-cyber-surface flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-cyber-border bg-cyber-surface flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <h3 className="font-bold text-white text-base">Verification History Audit</h3>
                 <span className="text-xs text-cyber-text-muted uppercase font-semibold">Candidate: {selectedTestName}</span>
               </div>
               <button 
                 onClick={() => setHistoryModalOpen(false)}
-                className="text-cyber-text-muted hover:text-white border border-cyber-border px-3 py-1 rounded text-xs"
+                className="text-cyber-text-muted hover:text-white border border-cyber-border px-3 py-1.5 rounded text-xs w-full sm:w-auto text-center"
               >
                 Close Logs
               </button>
