@@ -51,8 +51,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
+          const profileData = await authApi.getMe();
           setUser(session.user);
-          await fetchProfile(session.user.id);
+          setProfile(profileData);
         }
       } catch (err) {
         console.error('Error initializing auth:', err);
@@ -72,8 +73,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (session?.user) {
-        setUser(session.user);
-        await fetchProfile(session.user.id);
+        try {
+          const profileData = await authApi.getMe();
+          setUser(session.user);
+          setProfile(profileData);
+        } catch (err) {
+          console.error('Error fetching profile on auth change:', err);
+          setUser(session.user);
+          setProfile(null);
+        }
       } else {
         setUser(null);
         setProfile(null);
