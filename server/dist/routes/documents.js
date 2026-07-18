@@ -230,11 +230,10 @@ router.get('/:id/render', async (req, res) => {
         const endStr = expiryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         const validityPeriod = `${startStr} - ${endStr}`;
         // Fetch base64 representations for images
-        const ndleaLogoPath = '../../assets/ndlealogo.png';
         const signatureUrl = 'https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png';
-        const [logoBase64, watermarkBase64, signatureBase64, passportBase64] = await Promise.all([
-            Promise.resolve(getBase64FromFile(ndleaLogoPath)),
-            Promise.resolve(getBase64FromFile(ndleaLogoPath)),
+        const NDLEA_LOGO_URL = 'https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji';
+        const [watermarkBase64, signatureBase64, passportBase64] = yield Promise.all([
+            getBase64FromUrl(NDLEA_LOGO_URL),
             getBase64FromUrl(signatureUrl),
             getBase64FromUrl(test.passport_url)
         ]);
@@ -250,7 +249,6 @@ router.get('/:id/render', async (req, res) => {
         html = html.replace(/\{\{PASSPORT_URL\}\}/g, passportBase64 || test.passport_url);
         html = html.replace(/\{\{QR_CODE_URL\}\}/g, test.qr_code_url);
         html = html.replace(/\{\{VALIDITY_PERIOD\}\}/g, validityPeriod);
-        html = html.replace(/\{\{NDLEA_LOGO_BASE64\}\}/g, logoBase64);
         html = html.replace(/\{\{BACKGROUND_WATERMARK_BASE64\}\}/g, watermarkBase64);
         html = html.replace(/\{\{SIGNATURE_BASE64\}\}/g, signatureBase64);
         res.setHeader('Content-Type', 'text/html');
