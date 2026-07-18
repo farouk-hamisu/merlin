@@ -3,8 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
-import { logger } from './utils/logger';
-import { supabaseAdmin } from './db/supabase';
+import {logger} from './utils/logger';
+import {supabaseAdmin} from './db/supabase';
 
 // Import Routes
 import authRouter from './routes/auth';
@@ -41,34 +41,34 @@ const limiter = rateLimit({
   max: 200, // limit each IP to 200 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests from this IP, please try again later.' },
+  message: {error: 'Too many requests from this IP, please try again later.'},
 });
 app.use('/api/', limiter);
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // Server health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({status: 'ok', timestamp: new Date().toISOString()});
 });
 
 // Public settings route (for landing page info, e.g. Telegram Admin URL)
 app.get('/api/settings/public', async (req, res) => {
   try {
-    const { data: setting, error } = await supabaseAdmin
+    const {data: setting, error} = await supabaseAdmin
       .from('settings')
       .select('value')
       .eq('key', 'telegram_username')
       .single();
 
     if (error || !setting) {
-      return res.json({ telegram_username: '@merlin_admin' });
+      return res.json({telegram_username: '@merlin_admin'});
     }
 
-    res.json({ telegram_username: setting.value });
+    res.json({telegram_username: setting.value});
   } catch (err) {
-    res.json({ telegram_username: '@merlin_admin' });
+    res.json({telegram_username: '@merlin_admin'});
   }
 });
 

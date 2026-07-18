@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Users, Key, FileText, Settings, ShieldAlert, TrendingUp, 
+  Users, Key, FileText, Settings, TrendingUp, 
   Trash2, Search, Plus, Clock, Loader2, Eye 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -235,7 +235,7 @@ export const Admin: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-auto py-3 md:py-0 md:h-16 items-center flex-wrap gap-2 w-full">
             <div className="flex items-center gap-2">
-              <ShieldAlert className="h-6 w-6 md:h-7 md:w-7 text-cyber-primary" />
+              <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" className="h-6 w-auto object-contain md:h-7" />
               <span className="font-extrabold text-base md:text-lg tracking-wider text-white">SYSTEM ADMIN CONSOLE</span>
             </div>
             <div className="flex items-center flex-wrap gap-2 md:gap-4">

@@ -51,7 +51,7 @@ export const Register: React.FC = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <Link to="/" className="flex items-center gap-2">
-            <Shield className="h-10 w-10 text-cyber-primary" />
+            <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" className="h-10 w-auto object-contain" />
             <span className="font-bold text-2xl tracking-wider text-white">Merlin</span>
           </Link>
         </div>

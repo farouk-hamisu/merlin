@@ -23,7 +23,7 @@
             width: 80%;
             opacity: 0.05;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
         }
 
         .container {
@@ -31,6 +31,21 @@
             z-index: 1;
             position: relative;
         }
+          .container::before {
+            content: "";
+            position: absolute;
+            top: 0%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 80%;
+            opacity: 0.05;
+            pointer-events: none;
+          }
+        
 
         .logo {
             width: 80px;
@@ -216,7 +231,6 @@
 
 <body>
     <div class="container">
-        <img src="{{BACKGROUND_WATERMARK_BASE64}}" class="watermark-bg" alt="">
         <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" class="logo">
         <h1>CERTIFICATE</h1>
         <p class="certificate-title">OF DRUG INTEGRITY TEST</p>

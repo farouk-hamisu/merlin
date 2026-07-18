@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Shield, Key, HelpCircle, 
+  Key, HelpCircle, 
   Send, AlertTriangle, ShieldCheck, Cpu, ArrowRight 
 } from 'lucide-react';
 import { authApi } from '../services/api';
@@ -32,7 +32,7 @@ export const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <Shield className="h-8 w-8 text-cyber-primary" />
+              <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" className="h-8 w-auto object-contain" />
               <span className="font-bold text-xl tracking-wider text-white">Merlin</span>
             </div>
             <div className="flex items-center gap-4">
@@ -118,7 +118,7 @@ export const Landing: React.FC = () => {
 
             <div className="cyber-panel p-6">
               <div className="h-12 w-12 rounded-md bg-cyber-primary/10 border border-cyber-primary/30 flex items-center justify-center mb-6">
-                <Shield className="h-6 w-6 text-cyber-primary" />
+                <ShieldCheck className="h-6 w-6 text-cyber-primary" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Verification Audit Log</h3>
               <p className="text-cyber-text-muted text-sm leading-relaxed">
@@ -231,7 +231,7 @@ export const Landing: React.FC = () => {
       <footer className="mt-auto border-t border-cyber-border bg-cyber-surface py-8 text-center text-xs text-cyber-text-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-cyber-primary" />
+            <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" className="h-5 w-auto object-contain" />
             <span className="font-bold tracking-wider text-white">Merlin</span>
           </div>
           <p>&copy; {new Date().getFullYear()} Merlin Platform. All Rights Reserved. Securing Certificate Integrity.</p>

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { 
-  Shield, Key, FileText, Upload, Plus, CheckCircle, 
+  Key, FileText, Upload, Plus, CheckCircle, 
   AlertTriangle, Loader2, LogOut, Download, Send
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -172,7 +172,7 @@ useEffect(() => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between h-auto py-4 sm:py-0 sm:h-16 gap-4 sm:gap-2">
             <div className="flex items-center gap-2">
-              <Shield className="h-6 w-6 md:h-7 md:w-7 text-cyber-primary" />
+              <img src="https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji" alt="NDLEA Logo" className="h-6 w-auto object-contain md:h-7" />
               <span className="font-bold text-base md:text-lg tracking-wider text-white">MERLIN PORTAL</span>
             </div>
             <div className="flex items-center flex-wrap justify-center gap-3 md:gap-4">
