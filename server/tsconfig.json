@@ -5,6 +5,7 @@
     "lib": ["es2022"],
     "strict": true,
     "esModuleInterop": true,
+    "types": ["node"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
