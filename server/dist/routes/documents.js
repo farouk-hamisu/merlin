@@ -232,7 +232,7 @@ router.get('/:id/render', async (req, res) => {
         // Fetch base64 representations for images
         const signatureUrl = 'https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png';
         const NDLEA_LOGO_URL = 'https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji';
-        const [watermarkBase64, signatureBase64, passportBase64] = yield Promise.all([
+        const [watermarkBase64, signatureBase64, passportBase64] = await Promise.all([
             getBase64FromUrl(NDLEA_LOGO_URL),
             getBase64FromUrl(signatureUrl),
             getBase64FromUrl(test.passport_url)
