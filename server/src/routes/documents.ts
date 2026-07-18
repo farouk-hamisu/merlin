@@ -35,6 +35,17 @@ const getBase64FromUrl = async (url: string): Promise<string> => {
   }
 };
 
+const getBase64FromFile = (filePath: string): string => {
+  try {
+    const absolutePath = path.resolve(__dirname, filePath);
+    const buffer = fs.readFileSync(absolutePath);
+    return `data:image/png;base64,${buffer.toString('base64')}`;
+  } catch (err: any) {
+    logger.error(`Error reading local file to base64: ${err.message} for path ${filePath}`);
+    return '';
+  }
+};
+
 // Helper to ensure bucket exists
 const ensureBucketExists = async () => {
   try {
@@ -246,12 +257,12 @@ router.get('/:id/render', async (req: AuthenticatedRequest, res: Response) => {
     const validityPeriod = `${startStr} - ${endStr}`;
 
     // Fetch base64 representations for images
-    const ndleaLogoUrl = 'https://drugandvisa-ndlea-gov-ng.site.je/Applicants/statistics/images/ndlea-icon.png';
+    const ndleaLogoPath = '../../assets/ndlealogo.png';
     const signatureUrl = 'https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png';
 
     const [logoBase64, watermarkBase64, signatureBase64, passportBase64] = await Promise.all([
-      getBase64FromUrl(ndleaLogoUrl),
-      getBase64FromUrl(ndleaLogoUrl),
+      Promise.resolve(getBase64FromFile(ndleaLogoPath)),
+      Promise.resolve(getBase64FromFile(ndleaLogoPath)),
       getBase64FromUrl(signatureUrl),
       getBase64FromUrl(test.passport_url)
     ]);
