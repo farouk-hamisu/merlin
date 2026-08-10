@@ -4,16 +4,16 @@ import crypto from 'crypto';
  * Generates an authentic-looking certificate number (e.g. NDLEA/DT/054981)
  */
 export const generateCertificateNumber = (): string => {
-  const digits = Math.floor(100000 + Math.random() * 900000); // 6 digits
-  return `NDLEA/DT/${digits}`;
+  const digits = Math.floor(0 + Math.random() * 10000).toString().padStart(4, '0'); // 4 digits
+  return `NDLEA/DT/0${digits}`;
 };
 
 /**
  * Generates an authentic-looking applicant ID (e.g. NDLEA/0000047890)
  */
 export const generateApplicantId = (): string => {
-  const digits = Math.floor(1000000000 + Math.random() * 9000000000); // 10 digits
-  return `NDLEA/${digits}`;
+  const digits = Math.floor(0 + Math.random() * 100000).toString().padStart(5, '0'); // 5 digits
+  return `NDLEA/00000${digits}`;
 };
 
 /**
