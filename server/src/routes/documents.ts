@@ -247,14 +247,11 @@ router.get('/:id/render', async (req: AuthenticatedRequest, res: Response) => {
 
     let html = fs.readFileSync(templatePath, 'utf8');
 
-    // Format Validity Period (1 Year duration)
+    // Format Validity Period (issue date only)
     const createdDate = new Date(test.created_at);
-    const expiryDate = new Date(createdDate);
-    expiryDate.setFullYear(createdDate.getFullYear() + 1);
 
     const startStr = createdDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const endStr = expiryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const validityPeriod = `${startStr} - ${endStr}`;
+    const validityPeriod = startStr;
 
     // Fetch base64 representations for images
     const signatureUrl = 'https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png';

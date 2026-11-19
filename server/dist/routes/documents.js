@@ -222,13 +222,10 @@ router.get('/:id/render', async (req, res) => {
             return res.status(500).send('<h1>Template Engine Missing</h1>');
         }
         let html = fs_1.default.readFileSync(templatePath, 'utf8');
-        // Format Validity Period (1 Year duration)
+        // Format Validity Period (issue date only)
         const createdDate = new Date(test.created_at);
-        const expiryDate = new Date(createdDate);
-        expiryDate.setFullYear(createdDate.getFullYear() + 1);
         const startStr = createdDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const endStr = expiryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const validityPeriod = `${startStr} - ${endStr}`;
+        const validityPeriod = startStr;
         // Fetch base64 representations for images
         const signatureUrl = 'https://drugandvisa.ndlea.gov.ng/SuperDeck/signatures/0000000468/signature.png';
         const NDLEA_LOGO_URL = 'https://res.cloudinary.com/uf6qp7jz/image/upload/f_auto,q_auto/ndlealogo_l2rdji';
