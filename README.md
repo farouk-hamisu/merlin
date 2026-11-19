@@ -49,7 +49,7 @@ drugtest/
 ### 1. Database Configuration (Supabase)
 
 1.  Log in to your [Supabase Dashboard](https://supabase.com).
-2.  Navigate to your SQL Editor and execute the schema definitions inside `/supabase/migrations/20260711000000_init.sql`.
+2.  Navigate to your SQL Editor and execute every file inside `/supabase/migrations/` in filename order (the `20260711000000_init.sql`, `20260711010000_storage.sql`, and `20261119000000_fix_rls_recursion.sql` migrations).
     *   This creates the `profiles`, `activation_keys`, `drug_tests`, `settings`, and `verification_logs` tables.
     *   This configures the sync triggers between `auth.users` and `public.profiles`.
     *   This enables Row-Level Security (RLS) policies on all tables.
